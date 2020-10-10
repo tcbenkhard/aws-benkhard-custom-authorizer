@@ -12,7 +12,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.handler = void 0;
 const jwt_service_1 = require("./service/jwt-service");
 const policy_service_1 = require("./service/policy-service");
-const handler_utils_1 = require("./util/handler-utils");
 const jwtService = new jwt_service_1.JwtService();
 const policyService = new policy_service_1.PolicyService();
 const handle = (event) => __awaiter(void 0, void 0, void 0, function* () {
@@ -22,7 +21,7 @@ const handle = (event) => __awaiter(void 0, void 0, void 0, function* () {
         return policy;
     }
     catch (exception) {
-        throw new Error("Unauthorized");
+        throw Error("Unauthorized");
     }
 });
-exports.handler = handler_utils_1.wrapHandler(handle);
+exports.handler = handle;

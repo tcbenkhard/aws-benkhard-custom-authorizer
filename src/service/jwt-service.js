@@ -46,17 +46,20 @@ class JwtService {
     validate(authorizationToken) {
         return __awaiter(this, void 0, void 0, function* () {
             const decodedToken = jwt.decode(authorizationToken, { complete: true });
-            const secret = yield this.tokenRepository.find(decodedToken.header.kid);
-            if (!secret)
-                throw new unauthorized_error_1.UnauthorizedError([{ errorCode: 'UNAUTHORIZED', reason: 'Invalid token.' }]);
-            try {
-                const token = jwt.verify(authorizationToken, secret.secret);
-                return token;
+            if (decodedToken.header) {
+                const secret = yield this.tokenRepository.find(decodedToken.header.kid);
+                if (secret) {
+                    try {
+                        const token = jwt.verify(authorizationToken, secret.secret);
+                        return token;
+                    }
+                    catch (exception) {
+                        console.log(`Exception validating token: ${exception}`);
+                        throw new unauthorized_error_1.UnauthorizedError([{ errorCode: 'UNAUTHORIZED', reason: 'Invalid token.' }]);
+                    }
+                }
             }
-            catch (exception) {
-                console.log(`Exception validating token: ${exception}`);
-                throw new unauthorized_error_1.UnauthorizedError([{ errorCode: 'UNAUTHORIZED', reason: 'Invalid token.' }]);
-            }
+            throw Error('Unauthorized');
         });
     }
 }

@@ -12,8 +12,8 @@ const handle = async (event: APIGatewayTokenAuthorizerEvent): Promise<APIGateway
         const policy = policyService.generateAllow(validJwt, event);
         return policy;
     } catch (exception) {
-        throw new Error("Unauthorized");
+        throw Error("Unauthorized");
     }
 }
 
-export const handler = wrapHandler(handle);
+export const handler = handle;
