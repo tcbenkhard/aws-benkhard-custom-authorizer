@@ -1,7 +1,6 @@
 import {APIGatewayAuthorizerResult, APIGatewayProxyResult, APIGatewayTokenAuthorizerEvent} from "aws-lambda";
 import {JwtService} from "./service/jwt-service";
 import {PolicyService} from "./service/policy-service";
-import {wrapHandler} from "./util/handler-utils";
 
 const jwtService = new JwtService();
 const policyService = new PolicyService();
